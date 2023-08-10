@@ -1,8 +1,8 @@
-import React from 'react';
+// import React from 'react';
 
-export const ContactList = () => {
-  {
-    /* <ul>
+export const ContactList = () => {};
+
+/* <ul>
             {contacts.map(({ name, id, number }) => {
               return (
                 <li key={id}>
@@ -11,5 +11,3 @@ export const ContactList = () => {
               );
             })}
           </ul> */
-  }
-};
