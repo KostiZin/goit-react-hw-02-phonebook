@@ -69,7 +69,7 @@ export class App extends Component {
   //   };
 
   render() {
-    const { contacts } = this.state;
+    // const { contacts } = this.state;
 
     return (
       <div
