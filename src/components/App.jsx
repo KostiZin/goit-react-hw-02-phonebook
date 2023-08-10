@@ -1,38 +1,8 @@
 import React, { Component } from 'react';
+import { Div, Section } from './App.styled';
 import { ContactForm } from './ContactForm';
 import { ContactList } from './ContactList';
-
-// export class App extends Component {
-//   state = {
-//     contacts: [],
-//     name: '',
-//   };
-
-//   // data is something that we get from the children when the button has been clicked (submit): we need to pass it on to the chiild as a prop
-//   handleSubmitSata = data => {
-//     console.log(data);
-
-//     // overwrite the excisting data
-//     this.setState(data);
-//   };
-
-//   render() {
-//     const { name } = this.state;
-
-//     return (
-//       <div>
-//         {/* in this case onSubmit it is just a name of the prop, we can use any name we want */}
-//         <Form onSubmit={this.handleSubmitSata} />
-//         <div>
-//           <h2>Contacts</h2>
-//           <ul>
-//             <li>{name}</li>
-//           </ul>
-//         </div>
-//       </div>
-//     );
-//   }
-// }
+import { Filter } from './Filter';
 
 export class App extends Component {
   state = {
@@ -43,56 +13,77 @@ export class App extends Component {
       { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
     ],
     filter: '',
-    name: '',
-    number: '',
   };
+
+  // if (isExist) {
+  //   alert(`${name} is already in contacts.`);
+  //   return
+  // }
 
   handleAddContact = newContact => {
-    // overwrite the excisting data
-    // newContact is an object (initialValues) with name, id and number
-    this.setState(prevState => {
-      return {
-        contacts: [...prevState.contacts, newContact],
-      };
-    });
+    const isExist = this.state.contacts.some(
+      contact => contact.name === newContact.name
+    );
 
-    console.log('new contact:', newContact);
-    console.log(this.state.contacts);
+    if (isExist) {
+      alert(`${newContact.name} is already in contacts.`);
+      return;
+    } else {
+      // overwrite the excisting data
+      // newContact is an object (initialValues) with name, id and number
+      this.setState(prevState => {
+        return {
+          contacts: [...prevState.contacts, newContact],
+        };
+      });
+    }
   };
 
-  //   handleSubmitSata = data => {
+  handleChangeFilter = newFilter => {
+    //  create a new function that will be used for getting currentTarget.value from our form. newFilter is something that we type in a search bar (input in Filter)
+    this.setState({
+      filter: newFilter,
+    });
+  };
 
-  //     console.log(data);
-
-  //     // overwrite the excisting data
-  //     this.setState(data);
-  //   };
+  handleDeleteContact = contactId => {
+    this.setState(prevState => {
+      return {
+        // we use filter() to create a new array/object without the chosen id
+        contacts: prevState.contacts.filter(
+          contact => contact.id !== contactId
+        ),
+      };
+    });
+  };
 
   render() {
-    // const { contacts } = this.state;
+    const { contacts, filter } = this.state;
+
+    // we add this const to create a new object/array with the filtered data and this object/array we will use with our .li that's why we will add it to ContactList
+
+    const visibleFilter = contacts.filter(contact =>
+      contact.name.toLocaleLowerCase().includes(filter.toLocaleLowerCase())
+    );
 
     return (
-      <div
-        style={{
-          height: '100%',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          fontSize: 20,
-          color: '#010101',
-        }}
-      >
-        <div>
+      <Section>
+        <Div>
           <h1>Phonebook</h1>
           <ContactForm onAdd={this.handleAddContact} />
-        </div>
-        <div>
+        </Div>
+        <Div>
           <h2>Contacts</h2>
-          <ContactList />
-        </div>
-        {/* <Filter />
-         */}
-      </div>
+          <Filter
+            filterContacts={filter}
+            onChangeFilter={this.handleChangeFilter}
+          />
+          <ContactList
+            data={visibleFilter}
+            onDelete={this.handleDeleteContact}
+          />
+        </Div>
+      </Section>
     );
   }
 }
