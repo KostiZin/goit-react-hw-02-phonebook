@@ -16,6 +16,12 @@ body {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
       monospace;
   }
+
+  ul, li {
+    list-style-type: none;
+  
+  padding: 0;
+  }
   
   
 

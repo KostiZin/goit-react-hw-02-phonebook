@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Div, Section } from './App.styled';
-import { ContactForm } from './ContactForm';
-import { ContactList } from './ContactList';
-import { Filter } from './Filter';
+import { ContactForm } from '../ContactForm/ContactForm';
+import { ContactList } from '../ContactList/ContactList';
+import { Filter } from '../Filter/Filter';
+import PropTypes from 'prop-types';
 
 export class App extends Component {
   state = {
@@ -14,11 +15,6 @@ export class App extends Component {
     ],
     filter: '',
   };
-
-  // if (isExist) {
-  //   alert(`${name} is already in contacts.`);
-  //   return
-  // }
 
   handleAddContact = newContact => {
     const isExist = this.state.contacts.some(
@@ -87,3 +83,14 @@ export class App extends Component {
     );
   }
 }
+
+App.propTypes = {
+  contacts: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      number: PropTypes.string.isRequired,
+    })
+  ),
+  filter: PropTypes.string,
+};

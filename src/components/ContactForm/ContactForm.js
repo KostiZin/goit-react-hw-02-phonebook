@@ -8,6 +8,7 @@ import {
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { nanoid } from 'nanoid';
+import PropTypes from 'prop-types';
 
 const schema = Yup.object().shape({
   name: Yup.string()
@@ -20,7 +21,7 @@ const schema = Yup.object().shape({
     )
     .required('Name is a required field'),
   number: Yup.string()
-    .min(7, 'Type min 10 digits')
+    .min(7, 'Type min 7 digits')
     .matches(
       /\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/,
       'Phone number must be digits and can contain spaces, dashes, parentheses and can start with +'
@@ -69,3 +70,7 @@ export class ContactForm extends Component {
     );
   }
 }
+
+ContactForm.propTypes = {
+  onAdd: PropTypes.func.isRequired,
+};
